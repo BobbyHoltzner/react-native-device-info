@@ -18,3 +18,5 @@ export function getInstanceID(): string;
 export function isEmulator(): boolean;
 export function isTablet(): boolean;
 export function isPinOrFingerprintSet(cb: (isSet: boolean) => void): void;
+export function isEncrypted(): boolean;
+export function myName(cb: (name: string) => void): void;

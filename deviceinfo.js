@@ -65,4 +65,7 @@ module.exports = {
   isPinOrFingerprintSet: function () {
     return RNDeviceInfo.isPinOrFingerprintSet;
   },
+  isEncrypted: function() {
+    return RNDeviceInfo.isEncrypted;
+  }
 };

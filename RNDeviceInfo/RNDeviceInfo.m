@@ -9,15 +9,14 @@
 #import "RNDeviceInfo.h"
 #import "DeviceUID.h"
 #import <LocalAuthentication/LocalAuthentication.h>
+#import "RCTLog.h"
 
 @interface RNDeviceInfo()
 
 @end
 
 @implementation RNDeviceInfo
-{
 
-}
 
 RCT_EXPORT_MODULE()
 
@@ -163,6 +162,14 @@ RCT_EXPORT_MODULE()
   return [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad;
 }
 
+- (bool) isEncrypted
+{
+    LAContext *context = [[LAContext alloc] init];
+    BOOL isPinOrFingerprintSet = ([context canEvaluatePolicy:LAPolicyDeviceOwnerAuthentication error:nil]);
+    return isPinOrFingerprintSet;
+//    return true;
+}
+
 - (NSDictionary *)constantsToExport
 {
     UIDevice *currentDevice = [UIDevice currentDevice];
@@ -187,11 +194,14 @@ RCT_EXPORT_MODULE()
              @"timezone": self.timezone,
              @"isEmulator": @(self.isEmulator),
              @"isTablet": @(self.isTablet),
+             @"isEncrypted": @(self.isEncrypted)
              };
 }
 
+
 RCT_EXPORT_METHOD(isPinOrFingerprintSet:(RCTResponseSenderBlock)callback)
 {
+    printf("bh in objective c");
     LAContext *context = [[LAContext alloc] init];
     BOOL isPinOrFingerprintSet = ([context canEvaluatePolicy:LAPolicyDeviceOwnerAuthentication error:nil]);
     callback(@[[NSNumber numberWithBool:isPinOrFingerprintSet]]);
